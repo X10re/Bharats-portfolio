@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bharat — Staffing Portfolio</title>
+  <meta name="description" content="Bharat — Minecraft staffing portfolio. Helper, Moderator, aspiring Staff Manager." />
+  <style>
+    :root{
+      --bg1:#0f1724; /* deep navy */
+      --bg2:#071226; /* darker */
+      --accent:#6ee7b7; /* mint */
+      --muted:#93a3b8;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.03);
+      --card-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(110,231,183,0.04), transparent),
+                  radial-gradient(900px 400px at 90% 80%, rgba(99,102,241,0.03), transparent),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow:auto;
+    }
+
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+    .container{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 420px;gap:28px;padding:48px}
+
+    .stage{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);box-shadow:var(--card-shadow);padding:40px;overflow:auto;position:relative}
+    .logo{display:flex;align-items:center;gap:12px;margin-bottom: 20px; position: sticky; top: 0; background: rgba(15, 23, 36, 0.85); backdrop-filter: blur(10px); z-index: 10; padding: 10px 0; border-radius: var(--radius);}
+    .brand{font-weight:700;font-size:20px;letter-spacing:0.2px}
+    .subtitle{color:var(--muted);font-size:13px}
+
+    .intro{display:flex;gap:28px;align-items:flex-start;min-height:calc(100% - 80px);flex-wrap:wrap}
+    .intro-left{flex:1;min-width:260px}
+    .avatar{width:160px;height:160px;border-radius:18px;background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(2,6,23,0.5);backdrop-filter: blur(6px);}
+    .avatar svg{width:120px;height:120px;opacity:0.95}
+
+    h1{font-size:28px;margin-bottom:8px;margin-top: 0;}
+    h2{font-size:24px;margin-bottom:16px;margin-top: 0;}
+    h3{font-size:20px;margin-bottom:12px;margin-top: 0;color: var(--accent);}
+    p.lead{color:var(--muted);line-height:1.6;margin-bottom:18px}
+
+    .cta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top: 20px;}
+    .btn{background:linear-gradient(90deg,var(--accent), #5fd4b0);color:#042023;padding:10px 14px;border-radius:12px;font-weight:600;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(45,163,131,0.12);transition:transform .28s cubic-bezier(.2,.9,.25,1),box-shadow .2s}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(110,231,183,0.12);box-shadow:none}
+    .btn:active{transform:translateY(2px)}
+
+    .side{display:flex;flex-direction:column;gap:18px}
+    .nav-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(2,6,23,0.45);cursor:pointer;transition:transform .28s,box-shadow .28s}
+    .nav-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .nav-title{font-weight:700}
+    .nav-desc{color:var(--muted);font-size:13px;margin-top:6px}
+
+    .page{position:absolute;inset:0;padding:40px;display:flex;flex-direction:column;gap:14px;transform:translateY(20px);opacity:0;pointer-events:none;transition:opacity .6s cubic-bezier(.22,.9,.2,1),transform .6s cubic-bezier(.22,.9,.2,1);overflow-y:auto}
+    .page.active{opacity:1;transform:none;pointer-events:auto}
+
+    .page .back{position: sticky; bottom: 20px; align-self: flex-start; background: rgba(15, 23, 36, 0.8); border: 1px solid rgba(255,255,255,0.06); padding: 10px 16px; border-radius: 10px; color: var(--muted); cursor: pointer; margin-top: 20px; z-index: 5; width: fit-content; backdrop-filter: blur(10px); display: none; }
+    .page.active .back { display: block; }
+    .section{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.5);margin-bottom: 20px;}
+    .list{display:grid;gap:10px}
+    .chip{display:inline-flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:var(--glass-2);border:1px solid rgba(255,255,255,0.02)}
+
+    footer{position:absolute;left:48px;bottom:24px;color:var(--muted);font-size:13px}
+
+    @media (max-width:980px){
+      .container{grid-template-columns:1fr;padding:20px}
+      .side{order:2}
+      .stage{height:auto}
+      footer{left:20px}
+      .intro{flex-direction: column-reverse;}
+      .avatar{margin-bottom: 20px;}
+    }
+
+    .fade-up{opacity:0;transform:translateY(10px);animation:fadeUp .7s forwards}
+    .fade-up.delay-1{animation-delay:.12s}
+    .fade-up.delay-2{animation-delay:.18s}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    ul {padding-left: 20px; margin-top: 10px;}
+    li {margin-bottom: 8px; line-height: 1.6;}
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div id="app" class="container">
+
+    <div class="stage">
+
+      <!-- HERO -->
+      <div id="home" class="page active">
+        <h1>Hi, my name is Bharat</h1>
+        
+        <div class="intro">
+          <div class="intro-left">
+            <p class="lead">I'm 17 years old. I have solid experience in Minecraft staffing and have worked on several servers. I enjoy building communities and moderating servers. I am calm, professional, and dedicated to my work, always striving to learn and improve.</p>
+
+            <div class="section" style="margin-bottom:14px">
+              <p style="color:var(--muted);line-height:1.5">My passion and dedication for the Minecraft community motivate me to grow in this field. I want to work in an environment that values teamwork, communication, and responsibility.</p>
+              <p style="color:var(--muted);line-height:1.5;margin-top: 10px;">If you'd like to know more about me or work together, feel free to reach out using the contact details below.</p>
+            </div>
+
+            <div class="cta-row">
+              <button class="btn" data-open="work">Work</button>
+              <button class="btn secondary" data-open="skills">Skills</button>
+              <button class="btn secondary" data-open="core">Core Skills</button>
+              <button class="btn secondary" data-open="contact">Contact</button>
+            </div>
+
+            <div style="margin-top:18px;color:var(--muted)">
+              <strong>Quick facts</strong>
+              <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                <span class="chip">Helper — Haider Network (57k+)</span>
+                <span class="chip">Moderator — CrazyMC (6k+)</span>
+                <span class="chip">Moderator — ShulkerMC (600+)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="avatar" aria-hidden>
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#6EE7B7" stop-opacity="0.95"/>
+                  <stop offset="1" stop-color="#60A5FA" stop-opacity="0.95"/>
+                </linearGradient>
+              </defs>
+              <rect x="6" y="6" width="108" height="108" rx="16" fill="url(#g1)" opacity="0.12"/>
+              <g transform="translate(18,18)">
+                <rect width="84" height="84" rx="12" fill="rgba(255,255,255,0.03)" />
+                <g transform="translate(10,12)">
+                  <circle cx="32" cy="18" r="14" fill="rgba(255,255,255,0.08)" />
+                  <rect x="6" y="44" width="52" height="20" rx="8" fill="rgba(255,255,255,0.06)" />
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORK (formerly EXPERIENCE) -->
+      <div id="work" class="page" aria-hidden>
+        <h2>Work</h2>
+        <div class="section list fade-up delay-1">
+          <div><strong>Helper</strong> — Haider Network – <span style="color:var(--muted)">57k+ members</span></div>
+          <div><strong>Moderator</strong> — CrazyMC – <span style="color:var(--muted)">6k+ members</span></div>
+          <div><strong>Helper</strong> — FlowPvP – <span style="color:var(--muted)">1k+ members</span></div>
+          <div><strong>Moderator</strong> — ShulkerMC – <span style="color:var(--muted)">600+ members</span></div>
+        </div>
+        
+        <button class="back" data-close>← Back to Home</button>
+      </div>
+
+      <!-- SKILLS -->
+      <div id="skills" class="page" aria-hidden>
+        <h2>Staff Skills & Manager Aspirations</h2>
+
+        <h3>What I Can Do as Staff</h3>
+        <div class="section list fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6;margin-bottom:15px">I have experience with many staff tasks. I work closely with other staff members and help new staff learn the ropes. I moderate the server to keep the game fun and fair for everyone. I know how to use staff commands properly and handle support tickets smoothly. My goal is to make sure all players have a good experience. I confidently do all general staff duties and take my role seriously.</p>
+          
+          <p style="color:var(--muted);margin-bottom:10px"><strong>Some of the key tasks I perform include:</strong></p>
+          <ul style="color:var(--muted);line-height:1.7">
+            <li>Supporting and guiding new staff members</li>
+            <li>Monitoring player behavior and enforcing rules</li>
+            <li>Using staff tools and commands effectively</li>
+            <li>Managing support tickets and player reports</li>
+            <li>Working as part of a team to maintain a positive community</li>
+          </ul>
+        </div>
+
+        <h3>Staff Manager Aspirations</h3>
+        <div class="section fade-up delay-2">
+          <p style="color:var(--muted);line-height:1.6;margin-bottom:15px">I haven't been a manager yet, but I understand the role well and I'm confident I can do it. I know many important tasks that a staff manager handles.</p>
+          
+          <p style="color:var(--muted);margin-bottom:10px"><strong>Some of the key things I know how to do as a staff manager include:</strong></p>
+          <ul style="color:var(--muted);line-height:1.7">
+            <li>Recruiting and hiring new staff members</li>
+            <li>Taking staff interviews</li>
+            <li>Training staff and helping them improve</li>
+            <li>Promoting or demoting staff based on performance</li>
+            <li>Keeping the team active and working well together</li>
+            <li>Hosting weekly or monthly staff check-ins</li>
+            <li>Organizing staff meetings and handling conflicts between staff members</li>
+            <li>Checking staff activity and progress</li>
+            <li>Building a positive and strong staff team</li>
+          </ul>
+          
+          <p style="color:var(--accent);margin-top:15px;font-style:italic">— Aspiring Staff Manager</p>
+        </div>
+        
+        <button class="back" data-close>← Back to Home</button>
+      </div>
+
+      <!-- CORE SKILLS -->
+      <div id="core" class="page" aria-hidden>
+        <h2>Core Skills</h2>
+        
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6;margin-bottom:15px">Although I am not a manager yet, I have a solid understanding of the key skills and knowledge required to perform well in a management role.</p>
+        </div>
+
+        <h3>Minecraft Plugin & Server Knowledge</h3>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6">I am familiar with important server plugins like LuckPerms, Essentials, Vulcan, Grim, and LiteBans. This knowledge helps me assist staff effectively with commands, permissions, and punishments. I also understand how these plugins affect player experience and staff workflows, which allows me to guide others in using them correctly.</p>
+        </div>
+
+        <h3>Leadership</h3>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6">I understand the importance of strong leadership in guiding staff teams and creating a positive, motivating environment. I believe in leading by example, maintaining professionalism, and setting clear expectations to help team members grow and succeed.</p>
+        </div>
+
+        <h3>Communication</h3>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6">I know that clear and respectful communication is essential for a successful team. Whether it's talking with staff members, leading meetings, or interacting with players, I aim to communicate in a way that balances firmness and support to keep everyone motivated and focused.</p>
+        </div>
+
+        <h3>Organization</h3>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6">I have a good grasp of organizing staff operations, such as scheduling shifts, managing applications, promotions, and reports. I recognize the value of clear guidelines, documents, and handbooks to ensure every team member understands their roles and responsibilities.</p>
+        </div>
+
+        <h3>Conflict Resolution</h3>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6">I am aware that conflicts can arise within teams or between staff and players, and I am confident in handling these situations calmly and fairly. By listening to all sides and making objective decisions, I aim to maintain trust and resolve issues without unnecessary drama.</p>
+        </div>
+        
+        <button class="back" data-close>← Back to Home</button>
+      </div>
+
+      <!-- CONTACT -->
+      <div id="contact" class="page" aria-hidden>
+        <h2>Contact</h2>
+        <div class="section fade-up delay-1">
+          <p style="color:var(--muted);line-height:1.6;margin-bottom:15px">Feel free to reach out to me for staffing opportunities. I'm always open to discussing new projects and ideas.</p>
+          
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;color:var(--muted)">
+            <div><strong>Discord:</strong> <span style="color:#e6eef8">bharat0349</span></div>
+            <div><strong>Email:</strong> <a href="mailto:bharatnath8080@gmail.com" style="color:var(--accent);text-decoration:none">bharatnath8080@gmail.com</a></div>
+          </div>
+        </div>
+        
+        <button class="back" data-close>← Back to Home</button>
+      </div>
+
+      <footer>Made with care • Smooth, professional UI</footer>
+    </div>
+
+    <div class="side">
+      <div class="nav-card" data-open="work">
+        <div class="nav-title">Work</div>
+        <div class="nav-desc">See server roles and responsibilities.</div>
+      </div>
+
+      <div class="nav-card" data-open="skills">
+        <div class="nav-title">Skills</div>
+        <div class="nav-desc">What I can do, aspirations, and core skills.</div>
+      </div>
+
+      <div class="nav-card" data-open="core">
+        <div class="nav-title">Core Skills</div>
+        <div class="nav-desc">Detailed breakdown of my capabilities.</div>
+      </div>
+
+      <div class="nav-card" data-open="contact">
+        <div class="nav-title">Contact</div>
+        <div class="nav-desc">Discord & email to get in touch.</div>
+      </div>
+
+      <div style="margin-top:auto;color:var(--muted);font-size:13px">Tip: Click any card to view full page. Use the Back button to return.</div>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = innerWidth;
+    let h = canvas.height = innerHeight;
+    const particles = [];
+    const P = 40;
+    function rand(min,max){return Math.random()*(max-min)+min}
+    function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
+    addEventListener('resize',resize);
+    for(let i=0;i<P;i++) particles.push({x:rand(0,w), y:rand(0,h), r:rand(0.6,2.2), vx:rand(-0.2,0.2), vy:rand(-0.2,0.2), alpha:rand(0.05,0.18)});
+    function draw(){ctx.clearRect(0,0,w,h);for(const p of particles){p.x += p.vx; p.y += p.vy; if(p.x< -20) p.x=w+20; if(p.x> w+20) p.x=-20; if(p.y<-20) p.y=h+20; if(p.y>h+20) p.y=-20; ctx.beginPath(); ctx.fillStyle = 'rgba(110,231,183,'+p.alpha+')'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();}}
+    (function loop(){draw(); requestAnimationFrame(loop)})();
+
+    // Page navigation functionality
+    const pages = document.querySelectorAll('.page');
+    const logo = document.querySelector('.logo');
+    
+    function openPage(id){
+      pages.forEach(p => {
+        p.classList.toggle('active', p.id === id);
+      });
+      
+      // Make logo sticky when on other pages
+      if (id !== 'home') {
+        logo.style.position = 'sticky';
+        logo.style.top = '0';
+        logo.style.background = 'rgba(15, 23, 36, 0.85)';
+        logo.style.backdropFilter = 'blur(10px)';
+        logo.style.zIndex = '10';
+        logo.style.padding = '10px 0';
+        logo.style.borderRadius = 'var(--radius)';
+      } else {
+        logo.style = ''; // Reset to default
+      }
+    }
+
+    // Add event listeners for navigation
+    document.querySelectorAll('[data-open]').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.getAttribute('data-open');
+        openPage(id);
+      });
+    });
+
+    document.querySelectorAll('[data-close]').forEach(el => {
+      el.addEventListener('click', () => openPage('home'));
+    });
+
+    // Handle logo visibility on scroll
+    let lastScrollTop = 0;
+    const stage = document.querySelector('.stage');
+    
+    stage.addEventListener('scroll', function() {
+      let scrollTop = stage.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 50) {
+        // Scrolling down
+        logo.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up
+        logo.style.transform = 'translateY(0)';
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+  </script>
+</body>
+</html>
